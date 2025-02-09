@@ -1,3 +1,4 @@
+import math
 import pandas as pd
 import io
 import psycopg2
@@ -31,3 +32,19 @@ def fast_pg_insert(df: pd.DataFrame, connection: str, table_name: str, columns: 
         )
     conn.commit()
     conn.close()
+
+def get_timestamp_from_secs(secs: float) -> str:
+    """
+        Generates the timestamp (hh:mm:ss.ss) of a point in time given the
+        number of seconds since the start of something.
+
+        Parameters:
+        secs (float): The number of seconds since the start of something
+
+        Returns:
+        str
+    """
+    hours = math.floor(secs / (60.0 * 60.0))
+    minutes = math.floor((secs % (60.0 * 60.0)) / 60)
+    seconds = secs % 60
+    return f"{int(hours):02}:{int(minutes):02}:{seconds:05.2f}"

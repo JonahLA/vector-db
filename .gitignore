@@ -1,7 +1,11 @@
-*.jsonl
-*.json
 .DS_Store
 .idea/
 __pycache__
-.env
+*.venv
+
+# data files
+embeddings
+documents
+*.json
+*.jsonl
 *.zip
