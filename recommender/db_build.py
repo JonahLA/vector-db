@@ -9,25 +9,25 @@ load_dotenv()
 CONNECTION = os.getenv('CONNECTION_STRING')
 
 # need to run this to enable vector data type
-CREATE_EXTENSION = "CREATE EXTENSION vector"
+CREATE_EXTENSION = "CREATE EXTENSION IF NOT EXISTS vector"
 
 CREATE_PODCAST_TABLE = """
-CREATE TABLE IF NOT EXISTS Podcast (
-    podcast_id INTEGER,
+CREATE TABLE IF NOT EXISTS podcast (
+    podcast_id TEXT,
     title TEXT,
     PRIMARY KEY (podcast_id)
 )
 """
 CREATE_SEGMENT_TABLE = """
-CREATE TABLE Segment (
-    segment_id INTEGER,
-    start_time TIMESTAMP,
-    end_time TIMESTAMP,
+CREATE TABLE IF NOT EXISTS segment (
+    segment_id TEXT,
+    start_time TIME,
+    end_time TIME,
     content TEXT,
     embedding VECTOR,
-    podcast_id INTEGER,
+    podcast_id TEXT,
     PRIMARY KEY (segment_id),
-    FOREIGN KEY (podcast_id) REFERENCES Podcast (podcast_id)
+    FOREIGN KEY (podcast_id) REFERENCES podcast (podcast_id)
 )
 """
 

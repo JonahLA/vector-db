@@ -8,7 +8,7 @@ load_dotenv()
 
 CONNECTION = os.getenv('CONNECTION_STRING')
 
-DROP_TABLE = "DROP TABLE Podcast, Segment"
+DROP_TABLE = "DROP TABLE podcast, segment"
 
 with psycopg2.connect(CONNECTION) as conn:
     cursor = conn.cursor()
