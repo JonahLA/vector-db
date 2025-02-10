@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS segment (
 """
 
 with psycopg2.connect(CONNECTION) as conn:
-    conn.autocommit = True
     cursor = conn.cursor()
 
     cursor.execute(CREATE_EXTENSION)
