@@ -6,21 +6,37 @@ import psycopg2
 
 load_dotenv()
 
-CONNECTION = None # paste connection string here or read from .env file
+CONNECTION = os.getenv('CONNECTION_STRING')
 
 # need to run this to enable vector data type
 CREATE_EXTENSION = "CREATE EXTENSION vector"
 
-# TODO: Add create table statement
 CREATE_PODCAST_TABLE = """
-
+CREATE TABLE IF NOT EXISTS Podcast (
+    podcast_id INTEGER,
+    title TEXT,
+    PRIMARY KEY (podcast_id)
+)
 """
-# TODO: Add create table statement
 CREATE_SEGMENT_TABLE = """
-
+CREATE TABLE Segment (
+    segment_id INTEGER,
+    start_time TIMESTAMP,
+    end_time TIMESTAMP,
+    content TEXT,
+    embedding VECTOR,
+    podcast_id INTEGER,
+    PRIMARY KEY (segment_id),
+    FOREIGN KEY (podcast_id) REFERENCES Podcast (podcast_id)
+)
 """
 
-conn = psycopg2.connect(CONNECTION)
-# TODO: Create tables with psycopg2 (example: https://www.geeksforgeeks.org/executing-sql-query-with-psycopg2-in-python/)
+with psycopg2.connect(CONNECTION) as conn:
+    conn.autocommit = True
+    cursor = conn.cursor()
 
+    cursor.execute(CREATE_EXTENSION)
+    cursor.execute(CREATE_PODCAST_TABLE)
+    cursor.execute(CREATE_SEGMENT_TABLE)
 
+    conn.commit()
